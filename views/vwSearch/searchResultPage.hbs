@@ -1,0 +1,98 @@
+{{#section 'search_engine'}}
+    <script>
+        $('#text').keypress(function(event){
+            const keycode = (event.keyCode ? event.keyCode : event.which);
+            if (keycode == '13') {
+                const action = $('#text').val();
+                const url = "/search/" + action;
+                $('#frmSearch').attr('action', url);
+                $('#frmSearch').submit();
+            }
+        });
+        $('#btnSearch').click(function(event){
+            const action = $('#text').val();
+            if (action !== '') {
+                const url = "/search/" + action;
+                $('#frmSearch').attr('action', url);
+                $('#frmSearch').submit();
+            }
+        });
+    </script>
+{{/section}}
+
+<div class="columns is-multiline is-mobile p-2">
+    <div class="column is-12">
+        <div class="card-header-title is-size-4-tablet is-size-5-mobile">Tìm thấy {{count}} kết quả cho từ khóa "{{word}}"</div>
+        <hr class="has-background-grey" />
+    </div>
+
+    {{#each this.product}}
+        <div class="column is-4-desktop is-6-tablet is-12-mobile card-hover ">
+            <div class="card p-5 m-4">
+                <header class="card-header" style="height: 60px">
+                    <p class="card-header-title is-size-5-desktop is-size-6-tablet is-size-7-mobile" >
+                        {{ProName}}
+                    </p>
+                </header>
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                        <a href="/product/detail/{{ProID}}">
+                            <img src="/public/product/{{ProID}}/1.png" alt="{{ProName}}">
+                        </a>
+                    </figure>
+                </div>
+                <div class="card-content py-2 px-0 is-size-6-desktop is-size-6-tablet is-size-7-mobile">
+                    <strong class="is-block has-text-info-dark"> Giá hiện tại: <span
+                            class="has-text-danger-dark">{{format_number Price}}</span></strong>
+                    <hr class="navbar-divider has-background-grey-dark"/>
+                    <div class="content">
+                        <strong class="is-block"> Số người mua: <a>{{BuyerCount}}</a></strong>
+                        <hr class="navbar-divider has-background-grey-dark"/>
+                        <time datetime="2016-1-1" class="is-block "><strong class="has-text-primary-dark">Ngày
+                            đăng:</strong>
+                            {{DateUpload}}
+                        </time>
+                    </div>
+                </div>
+
+                {{#if auth}}
+                    <footer class="card-footer">
+                        <a href="" class="card-footer-item">MUA NGAY</a>
+                    </footer>
+                {{/if}}
+
+
+            </div>
+        </div>
+    {{/each}}
+
+    {{#if this.count}}
+        <div class="column is-12">
+            <nav
+                    class="pagination is-centered"
+                    role="navigation"
+                    aria-label="pagination"
+            >
+
+
+                {{#if this.pagePrev.isVisible}}
+                    <a class="pagination-previous " href="?page={{this.pagePrev.page}}">Trang trước</a>
+                {{/if}}
+                {{#if this.pageNext.isVisible}}
+                    <a class="pagination-next" href="?page={{this.pageNext.page}}">Trang sau</a>
+                {{/if}}
+                <ul class="pagination-list">
+                    {{#each this.pageNumbers}}
+                        {{#if isCurrent}}
+                            <li><a class="pagination-link is-current" href="javascript:;">{{value}}</a></li>
+                        {{else}}
+                            <li><a class="pagination-link" href="?page={{value}}&type={{type}}">{{value}}</a></li>
+                        {{/if}}
+                    {{/each}}
+                </ul>
+            </nav>
+        </div>
+    {{/if}}
+
+
+</div>

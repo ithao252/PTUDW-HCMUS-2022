@@ -1,0 +1,53 @@
+{{#section 'js'}}
+    <script>
+        document.body.appendChild(document.createElement('script')).src='https://unpkg.com/sweetalert/dist/sweetalert.min.js';
+        $('#formConfirmOTP').on('submit', function (event) {
+            event.preventDefault();
+            const otp = document.getElementById('txtOTP').value;
+            if(otp.length<1){
+                swal("Please enter OTP!");
+                return;
+            }
+            $('#formConfirmOTP').off('submit').submit();
+        });
+        $('#txtOTP').select();
+    </script>
+{{/section}}
+<form id="formConfirmOTP" method="post">
+    <div class="has-text-centered">
+        <div class="column is-4 is-inline-block box my-5">
+            <div class="card-header-title is-inline-block is-size-4-tablet is-size-4-mobile">NHẬP MÃ OTP</div>
+
+            <div class="field has-text-centered">
+               
+                    <div class="notification is-warning">
+                        Mã OTP đã được gửi lại về email của bạn.
+                    </div>
+              
+                  
+
+            </div>
+
+            <div class="field has-text-left">
+                <label class="label">Mã OTP</label>
+                <div class="control">
+                    <input class="input" id="txtOtp" type="number"/>
+                </div>
+                <p class="help is-danger is-hidden" id="check-otp">Mã OTP không hợp lệ</p>
+            </div>
+            <div class="field is-grouped is-justify-content-center mt-5">
+                <div class="control">
+                    <button type="submit" class="button is-link has-background-success-dark">Xác nhận</button>
+                </div>
+                <div class="control">
+                    <a class="button is-link is-dark" href="javascript:$('#frmResendOtp').submit();">
+                        Gửi lại mã OTP
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</form>
+<form action="/info/reviewProfile/activeEmail/resendOtp" method="post" id="frmResendOtp"></form>

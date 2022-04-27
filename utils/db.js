@@ -6,7 +6,7 @@ export const connectionInfo = {
   port: 3306,
   user: 'root',
   password: '123',
-  database: 'ecdb'
+  database: 'web-online'
 };
 
 const knex = fn({

@@ -1,0 +1,117 @@
+{{#section 'js'}}
+  <script>
+    $('.addItem').on('click', function (e) {
+      const id = $(this).data('id');
+      $('#txtProID').val(id);
+      $('#frmAddItem').submit();
+    });
+  </script>
+{{/section}}
+
+
+<div class="columns is-multiline is-mobile p-2">
+    {{#if this.isEmpty}}
+        <div class="card-header-title is-size-3">Không có dữ liệu</div>
+    {{else}}
+     
+        {{#each this.list}}
+        
+            <div class="column is-4-desktop is-6-tablet is-12-mobile card-hover">
+                <div class="card p-5 m-4">
+                    <header class="card-header" style="height: 60px">
+                        <p class="card-header-title is-size-5-desktop is-size-5-tablet is-size-7-mobile">
+                            {{ProName}}
+                        </p>
+                            {{#if isNew}}
+            
+                                    <span class="tag is-success is-medium">new</span>
+                            {{/if}}
+                            
+
+                       
+                    </header>
+                    <div class="card-image">
+                        <figure class="image is-4by3">
+                            <a href="/product/detail/{{ProID}}">
+                                <img src="/public/product/{{ProID}}/1.png" >
+                            </a>
+
+                        </figure>
+                    </div>
+                    <div class="card-content py-2 px-0 is-size-6-desktop is-size-6-tablet is-size-7-mobile">
+                        <strong class="is-block has-text-info-dark"> Giá hiện tại: <span
+                                class="has-text-danger-dark">{{format_number Price}}</span></strong>
+                       
+                        <hr class="navbar-divider has-background-grey-dark"/>
+                        <div class="content">
+                            <strong class="is-block"> Số lượt mua: <a href="#">{{BuyerCount}}</a></strong>
+                            <hr class="navbar-divider has-background-grey-dark"/>
+                            <time datetime="2016-1-1" class="is-block "><strong class="has-text-primary-dark">Ngày
+                                đăng:</strong>
+                                {{DateUpload}}
+                            </time>
+
+                         
+                        </div>
+                    </div>
+
+                    {{#if auth}}
+                     <form action="/cart/add" method="post"id="frmAddItem" >
+                           <input type="hidden" id="txtProID" name="id">
+                           <input type="hidden" name="quantity" value="1">
+                                 </form>
+                        <footer class="card-footer is-size-7-mobile">
+                          
+    
+                            <a data-id="{{ProID}}" class="card-footer-item addItem" href="javascript:;">
+                                <span class="is-small mr-1"><i class="fa fa-shopping-cart"></i></span>
+                                ADD TO CART</a>
+                            {{#if isLiked}}
+                                <form action="/info/cancelFavorite/{{ProID}}" method="post"
+                                      id="frmCancelFavorite-{{ProID}}"></form>
+                                <a href="javascript: $('#frmCancelFavorite-{{ProID}}').submit();" class="card-footer-item">
+                                    <span class="is-small mr-1 has-text-danger"><i class="fa fa-heart"></i></span>
+                                    ĐÃ THÍCH
+                                </a>
+                            {{else}}
+                                <form action="/info/addFavorite/{{ProID}}" method="post"
+                                      id="frmAddFavorite-{{ProID}}"></form>
+                                <a href="javascript: $('#frmAddFavorite-{{ProID}}').submit();" class="card-footer-item has-text-danger">
+                                    <span class="is-small mr-1 has-text-danger-light"><i class="fa fa-heart"></i></span>
+                                    YÊU THÍCH
+                                </a>
+                            {{/if}}
+
+                        </footer>
+                    {{/if}}
+                </div>
+            </div>
+        {{/each}}
+
+        <div class="column is-12">
+            <nav
+                    class="pagination is-centered"
+                    role="navigation"
+                    aria-label="pagination"
+            >
+                {{#if this.pagePrev.isVisible}}
+                    <a class="pagination-previous " href="?page={{this.pagePrev.page}}">Trang trước</a>
+                {{/if}}
+                {{#if this.pageNext.isVisible}}
+                    <a class="pagination-next" href="?page={{this.pageNext.page}}">Trang sau</a>
+                {{/if}}
+
+                <ul class="pagination-list">
+                    {{#each this.pageNumbers}}
+                        {{#if isCurrent}}
+                            <li><a class="pagination-link is-current" href="javascript:;">{{value}}</a></li>
+                        {{else}}
+                            <li><a class="pagination-link" href="?page={{value}}">{{value}}</a></li>
+                        {{/if}}
+                    {{/each}}
+                </ul>
+            </nav>
+        </div>
+
+    {{/if}}
+</div>

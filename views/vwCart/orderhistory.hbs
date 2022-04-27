@@ -1,0 +1,41 @@
+<div class="order__content">
+  {{#each list as |item|}}
+    {{#unless item.empty}}
+      <div style="background-color: #ffe9f1;" class="border mb-5">
+        <h3 class="p-3">Mã đơn hàng:
+          {{item.order.OrderID}}
+          (ngày
+          {{format_date item.order.OrderDate}})</h3>
+        {{#each item.detail as |detail|}}
+          <div class="order__item d-flex align-items-center p-3">
+            <img
+              style="max-width: 100px; border: 1px solid black; margin-right: 20px"
+              src="/public/product/{{detail.ProID}}/1.png"
+              alt="Product"
+            />
+            <div
+              class="order__item--content d-flex align-items-center justify-content-between w-100"
+            >
+              <div>
+                <p class="order__item--title fw-bold h5">{{detail.ProName}}</p>
+                <p class="h6 text-warning">Đơn giá: {{format_number detail.Price}}</p>
+                <p
+                  class="order__item--quantity text-danger"
+                >x{{detail.Quantity}}</p>
+              </div>
+              <div class="order__item--price h5 text-danger">
+                {{format_number detail.Amount}}
+              </div>
+            </div>
+
+          </div>
+          <hr />
+        {{/each}}
+        <p style="text-align: right;" class="me-3 h5">Tổng số tiền:
+          <span class="text-danger fw-bold h3">{{format_number item.order.Total}}đ</span></p>
+      </div>
+    {{/unless}}
+    
+  {{/each}}
+
+</div>

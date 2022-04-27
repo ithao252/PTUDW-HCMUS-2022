@@ -2,39 +2,55 @@ import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-import categoryRoute from '../routes/category.route.js';
-import productRoute from '../routes/product.route.js';
-import productUserRoute from '../routes/product-user.route.js';
-import accountRoute from '../routes/account.route.js';
-import cartRoute from '../routes/cart.route.js';
-
-import auth from './auth.mdw.js';
+import productModel from "../model/product.model.js";
+import searchRoute from "../routes/search.route.js";
+import productUserRoute from "../routes/product-user.route.js";
+import authRoute from "../routes/auth.route.js";
+import infoRoute from "../routes/info.route.js";
+import adminRoute from "../routes/admin.route.js";
+import {auth,authAdmin} from './auth.mdw.js';
+import cartRoute from "../routes/cart.route.js";
 
 export default function (app) {
-  app.get('/', function (req, res) {
-    // res.send('Hello World!');
-    res.render('home');
+  app.get('/', async function (req, res) {
+    const topClose = await productModel.findTopClose();
+    const topSale = await productModel.findTopSale();
+    const topCommended = await productModel.findTopCommended();
+        let listID = '';
+        for(let i = 0; i < topClose.length; i++){
+            listID += topClose[i].ProID + ' ';
+        }
+        listID = listID.trim()
+        
+
+        res.render('home',{
+            layout:'main.hbs',
+            topClose,
+            topSale,
+            topCommended,
+            listID
+        });
   });
 
-  app.get('/about', function (req, res) {
-    res.render('about', {
-      layout: 'main.hbs'
+  app.get('/terms', async function (req,res){
+    res.render('terms',{
+        layout:'main.hbs'
     });
-  });
-
-  app.get('/bs4', function (req, res) {
-    res.sendFile(__dirname + '/bs4.html');
-  });
-
+});
+  
   app.get('/err', function (req, res) {
     throw new Error('Error!');
   });
 
-  app.use('/admin/categories', categoryRoute);
-  app.use('/admin/products', productRoute);
-  app.use('/products', productUserRoute);
-  app.use('/account', accountRoute);
+
+
+  // app.use('/products', productUserRoute);
+  app.use('/account', authRoute)
+  app.use('/search',searchRoute);
+  app.use('/product',productUserRoute);
+  app.use('/info',infoRoute);
   app.use('/cart', auth, cartRoute);
+  app.use('/admin', authAdmin, adminRoute);
 
   app.use(function (req, res, next) {
     res.render('404', { layout: false });

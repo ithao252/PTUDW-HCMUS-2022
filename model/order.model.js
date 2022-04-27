@@ -31,4 +31,15 @@ export default {
       .where('OrderID', id)
       .update(entity);
   },
+  async getLatestOrder() {
+    const sql =
+      "SELECT * FROM orders WHERE OrderID=(SELECT MAX(OrderID) FROM orders);";
+    const raw = await db.raw(sql);
+    return raw[0];
+  },
+  getOrderHistory(userId) {
+    return db("orders")
+      .where("orders.UserID", userId)
+      .select("orders.OrderID", "orders.OrderDate", "orders.Total");
+  }
 }

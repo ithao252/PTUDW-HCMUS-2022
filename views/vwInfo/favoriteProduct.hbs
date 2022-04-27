@@ -1,0 +1,75 @@
+
+<div class="columns is-multiline is-mobile p-2">
+    {{#if this.isEmpty}}
+        <div class="card-header-title is-size-3">Không có sản phẩm yêu thích</div>
+    {{else}}
+        <input type="text" value="{{this.listID}}" id="listId" class="is-hidden">
+        {{#each this.list}}
+            <div class="column is-4-desktop is-6-tablet is-12-mobile card-hover">
+                <div class="card p-5 m-4 ">
+                    <header class="card-header" style="height: 60px">
+                        <p class="card-header-title is-size-5-desktop is-size-5-tablet is-size-7-mobile">
+                            {{ProName}}
+                        </p>
+                    </header>
+                    <div class="card-image">
+                        <figure class="image is-4by3">
+                            <a href="/product/detail/{{ProID}}">
+                                <img src="/public/product/{{ProID}}/1.png" alt="Placeholder image">
+                            </a>
+                        </figure>
+                    </div>
+                    <div class="card-content py-2 px-0 is-size-6-desktop is-size-6-tablet is-size-7-mobile">
+                        <strong class="is-block has-text-info-dark"> Giá hiện tại: <span
+                                class="has-text-danger-dark">{{format_number Price}}</span></strong>
+                        
+                        <hr class="navbar-divider"/>
+                        <div class="content">
+                        
+                            <strong class="is-block"> Số lượt bán ra: <a href="#">{{BuyerCount}}</a></strong>
+                            <hr class="navbar-divider"/>
+                            <time datetime="2016-1-1" class="is-block "><strong class="has-text-primary-dark">Ngày
+                                đăng:</strong>
+                                {{DateUpload}}
+                            </time>
+               
+                            
+                        </div>
+                    </div>
+
+                    <footer class="card-footer is-size-7-mobile">
+                        <form action="/info/cancelFavorite/{{ProID}}" method="post" id="frmCancelFavorite"></form>
+                        <a href="javascript: $('#frmCancelFavorite').submit();" class="card-footer-item">
+                            <span class="is-small mr-1 has-text-danger"><i class="fa fa-heart"></i></span>
+                            Hủy yêu thích
+                        </a>
+                    </footer>
+                </div>
+            </div>
+        {{/each}}
+        <div class="column is-12">
+            <nav
+                    class="pagination is-centered"
+                    role="navigation"
+                    aria-label="pagination"
+            >
+                {{#if this.pagePrev.isVisible}}
+                    <a class="pagination-previous " href="?page={{this.pagePrev.page}}">Trang trước</a>
+                {{/if}}
+                {{#if this.pageNext.isVisible}}
+                    <a class="pagination-next" href="?page={{this.pageNext.page}}">Trang sau</a>
+                {{/if}}
+
+                <ul class="pagination-list">
+                    {{#each this.pageNumbers}}
+                        {{#if isCurrent}}
+                            <li><a class="pagination-link is-current" href="javascript:;">{{value}}</a></li>
+                        {{else}}
+                            <li><a class="pagination-link" href="?page={{value}}">{{value}}</a></li>
+                        {{/if}}
+                    {{/each}}
+                </ul>
+            </nav>
+        </div>
+    {{/if}}
+</div>

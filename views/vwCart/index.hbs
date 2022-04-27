@@ -1,65 +1,109 @@
-{{#section 'js'}}
+{{#section "js"}}
   <script>
-    $('.delItem').on('click', function (e) {
-      const id = $(this).data('id');
-      $('#txtDelProID').val(id);
-      $('#frmDelItem').submit();
+     $('.delItem').on('click', function(e) { const id = $(this).data('id');
+    $('#txtDelProID').val(id); $('#frmDelItem').submit(); });
+    $('.addAmount').on('click', function(e) { const id = $(this).data('id');
+      $('#txtProID').val(id);
+      $('#frmAddAmount').submit( ); 
+    });
+    $('.minusAmount').on('click', function(e) { const id = $(this).data('id');
+      $('#txtMinusProID').val(id);
+      $('#frmMinusAmount').submit(); 
     });
   </script>
 {{/section}}
 
-<div class="card">
-  <h4 class="card-header">
-    Shopping Cart
-  </h4>
-  {{#if this.empty}}
-    <div class="card-body">
-      <h5 class="card-title">Không có dữ liệu!</h5>
-    </div>
-  {{else}}
-    <form action="/cart/del" method="post" id="frmDelItem">
-      <input type="hidden" id="txtDelProID" name="id">
+
+
+{{#if this.empty}}
+  
+      <h2>Bạn chưa chọn sản phẩm nào</h2>
+ 
+{{else}}
+     <form action="/cart/add" method="post" id="frmAddAmount">
+      <input type="hidden" id="txtProID" name="id" />
+      <input type="hidden" id="quantity" name="quantity" value="1" />
     </form>
-    <div class="card-body">
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <th scope="col">Product</th>
-            <th scope="col">Price</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Amount</th>
-            <th scope="col"> </th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#each this.items}}
-            <tr>
+    <form action="/cart/minus" method="post" id="frmMinusAmount">
+      <input type="hidden" id="txtMinusProID" name="txtMinusProID" />
+      <input type="hidden" id="minusQuantity" name="minusQuantity" value="1" />
+    </form>
+    <form action="/cart/del" method="post" id="frmDelItem">
+      <input type="hidden" id="txtDelProID" name="id" />
+    </form>
+<div class="column is-12 p-5">
+                            <div class="table-wrapper" style="overflow-x: auto">
+                                <table class="table is-striped is-narrow  is-fullwidth ">
+                                    <hr class="has-background-primary "/>
+                                    <div class="card-header-title is-size-4">
+                                      Giỏ hàng
+                                    </div>
+                                    <thead>
+                                    <tr class="has-text-centered ">
+                                        <th><abbr title="time">Sản phẩm</abbr></th>
+                                        <th><abbr title="bidder">Đơn giá</abbr></th>
+                                        <th><abbr title="price">Số lượng</abbr></th>
+                                        <th><abbr title="price">Thành tiền</abbr></th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    {{#each this.items}}
+                                        <tr>
               <td>
-                <a href="/products/detail/{{product.ProID}}">
-                  {{product.ProName}}
-                </a>
+                <a
+                  href="/product/detail/{{product.ProID}}"
+                >{{product.ProName}}</a>
               </td>
               <td>{{format_number product.Price}}</td>
-              <td>{{quantity}}</td>
-              <td>{{format_number amount}}</td>
+              <td><button
+                  data-id="{{product.ProID}}"
+                  class="button is-primary minusAmount"
+                  type="button"
+                >-</button>&nbsp;<input
+                  style="max-width: 35px; height:37px; text-align: center"
+                  id="product-{{product.ProID}}"
+                  type="text"
+                  name=""
+                  value="{{quantity}}"
+                  readonly
+                />&nbsp;<button
+                  data-id="{{product.ProID}}"
+                  class="button is-danger addAmount"
+                  type="button"
+                >+</button></td>
+              <td>
+                {{format_number amount}}
+              </td>
               <td class="text-right">
-                <a data-id="{{product.ProID}}" class="btn btn-sm btn-danger delItem" href="javascript:;" role="button">
-                  <i class="fa fa-trash-o" aria-hidden="true"></i>
+                <a
+                  data-id="{{product.ProID}}"
+                  href="javascript:;"
+                  class="button is-danger delItem"
+                  role="button"
+                >
+                  <i class="fa fa-trash" aria-hidden="true"></i>
                 </a>
               </td>
             </tr>
-          {{/each}}
-        </tbody>
-      </table>
-    </div>
-  {{/if}}
-  <div class="card-footer text-muted d-flex justify-content-between">
-    <span>2 days ago</span>
-    <form action="/cart/checkout" method="post">
-      <button type="submit" class="btn btn-outline-success">
-        <i class="fa fa-check" aria-hidden="true"></i>
-        Check out
-      </button>
-    </form>
-  </div>
-</div>
+                                    {{/each}}
+
+ 
+
+                                    </tbody>
+                                   {{/if}}
+                                    <form action="/cart/checkout" method="post">
+                      
+             <div class="field is-grouped is-justify-content-center mt-5">
+                <div class="control">
+                    <button class="button is-link is-medium" type="submit">CHECK OUT</button>
+                </div>
+               
+            </div>
+            </form>
+                   
+                                </table>
+                           
+                            </div>
+                        </div>
+        </div>

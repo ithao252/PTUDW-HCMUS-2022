@@ -1,42 +1,69 @@
-import db from '../utils/db.js';
+import db from '../utils/db.js'
+import moment from "moment";
 
 export default {
-  findAll() {
-    return db('users');
-  },
+    addAccount(account) {
+        return db('users').insert(account);
+    },
+    updateInfoAccount(info) {
+        const username = info.username;
+        delete info.username;
+        return db('users').where('username', username).update(info);
+    },
+    async findByUsername(username) {
+        const list = await db('users').where('username', username);
 
-  async findById(id) {
-    const list = await db('users').where('id', id);
-    if (list.length === 0)
-      return null;
+        if (list.length === 0)
+            return null;
 
-    return list[0];
-  },
+        return list[0];
+    },
 
-  async findByUsername(username) {
-    const list = await db('users').where('username', username);
-    if (list.length === 0)
-      return null;
+    async findByEmail(email) {
+        const list = await db('users').where('email', email);
 
-    return list[0];
-  },
+        if (list.length === 0)
+            return null;
 
-  add(entity) {
-    return db('users').insert(entity);
-  },
+        return list[0];
+    },
 
-  del(id) {
-    return db('users')
-      .where('id', id)
-      .del();
-  },
+    async findAll(){
+        return db('users');
+    },
 
-  patch(entity) {
-    const id = entity.id;
-    delete entity.id;
+    async degradeAccount(username){
+        await db('users')
+            .where({ username: username})
+            .update({ level: 'bidder' });
+        await db('upgrade')
+            .where({ id: username})
+            .update({ isCancel: 1 })
+    },
 
-    return db('users')
-      .where('id', id)
-      .update(entity);
-  },
+    
+    async getNameByUsername(username){
+        const obj = await db('users').where('username',username).select('name');
+        return obj[0].name;
+    },
+
+    
+    async lockAccount(username) {
+        await db('users')
+            .where({ username: username})
+            .update({ isLock: 1 })
+    },
+    async unlockAccount(username) {
+        await db('users')
+            .where({ username: username})
+            .update({ isLock: 0 })
+    },
+    async deleteAccount(username) {
+        await db('users')
+            .where({username: username})
+            .delete()
+    },
+
+   
+
 }

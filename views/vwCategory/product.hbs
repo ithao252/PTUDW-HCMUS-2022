@@ -1,0 +1,410 @@
+
+{{#section 'js'}}
+
+    <script src="https://cdn.tiny.cloud/1/k24nz30cf3gjs50204ex4s6pi5wyll3m2qyffv64zathzntm/tinymce/5/tinymce.min.js"
+            referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: '#txtFullDesc',
+            plugins: 'paste image link autolink lists table media',
+            menubar: false,
+            toolbar: [
+                'undo redo | bold italic underline strikethrough | numlist bullist | alignleft aligncenter alignright | ' +
+                'forecolor backcolor | table link image media',
+            ]
+        });
+    </script>
+
+    <script>
+        function categoryClick(CatID) {
+            if ($(".category-" + CatID).hasClass("is-active")) {
+                $(".category-" + CatID).removeClass("is-active");
+                $(".list-" + CatID).toggleClass("is-hidden");
+            } else {
+                $(".manual").removeClass("is-active");
+                $(".manual-list").removeClass("is-hidden").toggleClass("is-hidden");
+                $(".category-" + CatID).toggleClass("is-active");
+                $(".list-" + CatID).removeClass("is-hidden");
+            }
+        }
+        $('#text').keypress(function (event) {
+            const keycode = (event.keyCode ? event.keyCode : event.which);
+            if (keycode == '13') {
+                const action = $('#text').val();
+                const url = "/search/" + action;
+                $('#frmSearch').attr('action', url);
+                $('#frmSearch').submit();
+            }
+        });
+        $('#btnSearch').click(function (event) {
+            const action = $('#text').val();
+            if (action !== '') {
+                const url = "/search/" + action;
+                $('#frmSearch').attr('action', url);
+                $('#frmSearch').submit();
+            }
+        });
+    </script>
+
+   
+{{/section}}
+
+<div class="columns is-multiline is-mobile p-2">
+    <div class="column is-6-tablet is-12-mobile mr-5">
+        <input type="text" id="ProductID" value="{{this.product.ProID}}" class="is-hidden">
+
+        <div class="box">
+            <figure class="image is-4by3">
+                <img src="/public/product/{{this.product.ProID}}/1.png">
+            </figure>
+        </div>
+
+        <div class="columns is-multiline">
+              <div class="modal modal_image">
+                <div class="modal-background"></div>
+                <div class="modal-content">
+                    <p class="image is-large">
+                        <img src="" alt="" class="img_src">
+                    </p>
+                </div>
+                <button class="modal-close is-large" aria-label="close" onclick="close_img_modal()"></button>
+            </div>
+
+            <div class="column is-12 p-2">
+                <section class="section">
+                    <div id="slider" style="overflow: hidden">
+                        <!-- Start Carousel -->
+                        <div class="carousel">
+                            <div class="item-1 mx-2">
+                                <!-- Slide Content -->
+                                <div class="card">
+                                    <div class="card-image">
+                                        <figure class="image is-16by9 is-covered">
+                                            <a onclick="modal_img({{this.product.ProID}},2);">
+                                                <img
+                                                        src="/public/product/{{this.product.ProID}}/2.png"
+                                                        alt=""
+                                                />
+                                            </a>
+                                        </figure>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="item-2 mx-2">
+                                <!-- Slide Content -->
+                                <div class="card">
+                                    <div class="card-image">
+                                        <figure class="image is-16by9 is-covered">
+                                            <a onclick="modal_img({{this.product.ProID}},3);">
+                                                <img
+                                                        src="/public/product/{{this.product.ProID}}/3.png"
+                                                        alt=""
+                                                />
+                                            </a>
+                                        </figure>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="item-3 mx-2">
+                                <!-- Slide Content -->
+                                <div class="card">
+                                    <div class="card-image">
+                                        <figure class="image is-16by9 is-covered">
+                                            <a onclick="modal_img({{this.product.ProID}},4);">
+                                                <img
+                                                        src="/public/product/{{this.product.ProID}}/4.png"
+                                                        alt=""
+                                                />
+                                            </a>
+                                        </figure>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="item-4 mx-2">
+                                <!-- Slide Content -->
+                                <div class="card">
+                                    <div class="card-image">
+                                        <figure class="image is-16by9 is-covered">
+                                            <a onclick="modal_img({{this.product.ProID}},5);">
+                                                <img
+                                                        src="/public/product/{{this.product.ProID}}/5.png"
+                                                        alt=""
+                                                />
+                                            </a>
+
+                                        </figure>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="item-5 mx-2">
+                                <!-- Slide Content -->
+                                <div class="card">
+                                    <div class="card-image">
+                                        <figure class="image is-16by9 is-covered">
+                                            <a onclick="modal_img({{this.product.ProID}},6);">
+                                                <img
+                                                        src="/public/product/{{this.product.ProID}}/6.png"
+                                                        alt=""
+                                                />
+                                            </a>
+                                        </figure>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="item-7 mx-2">
+                                <!-- Slide Content -->
+                                <div class="card">
+                                    <div class="card-image">
+                                        <figure class="image is-16by9 is-covered">
+                                            <a onclick="modal_img({{this.product.ProID}},6);">
+                                                <img
+                                                        src="/public/product/{{this.product.ProID}}/7.png"
+                                                        alt=""
+                                                />
+                                            </a>
+
+                                        </figure>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Carousel -->
+                    </div>
+                </section>
+            </div>
+          <div class="column is-12 p-5">
+                            <div class="table-wrapper" style="overflow-x: auto">
+                                <table class="table is-hoverable is-striped is-fullwidth is-bordered">
+                                    <hr class="has-background-grey"/>
+                                    <div class="card-header-title is-size-4">
+                                        Các đánh giá về sản phẩm
+                                    </div>
+                                    <thead>
+                                    <tr class="has-text-centered">
+                                        <th><abbr title="time">Thời điểm</abbr></th>
+                                        <th><abbr title="bidder">Người mua</abbr></th>
+                                        <th><abbr title="price">Đánh giá</abbr></th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    {{#each this.listcomment}}
+                                        <tr class="has-text-centered">
+                                            <th>{{time}}</th>
+                                            <td>{{mask_username username}}</td>
+                                            <td>{{comment}}</td>
+                                        </tr>
+                                    {{/each}}
+
+ 
+
+                                    </tbody>
+                                    {{#if auth}}
+                                    <form action="/product/addComment" method="post">
+                           <div class="card-header-title is-inline-block is-size-5-tablet is-size-5-mobile">COMMENT</div>
+                      
+          <input type="hidden"  value="{{this.product.ProID}}" name="id">
+            <div class="field has-text-left">
+                <div class="control">
+                    <input class="input" type="text" placeholder="Nhập comment" id="txtComment" name="comment" autofocus/>
+                     
+                </div>
+            </div>
+             <div class="field is-grouped is-justify-content-center mt-5">
+                <div class="control">
+                    <button class="button is-link is-medium" type="submit">Đăng</button>
+                </div>
+                <div class="control">
+                    <a class="button is-link is-light is-medium" href="javascript:;" type="button">
+                        Hủy
+                    </a>
+                </div>
+            </div>
+            </form>
+                            {{/if}}
+                                </table>
+                           
+                            </div>
+                        </div>
+        </div>
+
+    </div>
+
+
+    <div class="column is-5-tablet is-12-mobile ">
+        <div class="columns is-multiline">
+            <div class="column is-12 card-header-title is-size-4-tablet is-size-5-mobile ">
+                {{this.product.ProName}}
+            </div>
+
+            <div class="column is-12">
+                <div class="level columns">
+                    <span class="column is-12-mobile"> Mã sản phẩm:
+                        <strong class="px-1"> {{this.product.ProID}} </strong>
+                    </span>
+
+                    {{#if auth}}
+                        <div class="has-text-right-tablet column is-12-mobile">
+                            <div class="">
+                                {{#if isLiked}}
+                                    <form action="/info/cancelFavorite/{{this.product.ProID}}" method="post"
+                                          id="frmCancelFavorite"></form>
+                                    <a href="javascript: $('#frmCancelFavorite').submit();">Hủy yêu thích
+                                        <i class="fa fa-heart has-text-danger"></i>
+                                    </a>
+                                {{else}}
+                                    <form action="/info/addFavorite/{{this.product.ProID}}" method="post"
+                                          id="frmFavorite"></form>
+                                    <a href="javascript: $('#frmFavorite').submit();" class="has-text-danger">Yêu thích
+                                        <i class="fa fa-heart has-text-danger-light"></i>
+                                    </a>
+                                {{/if}}
+                            </div>
+                        </div>
+                    {{/if}}
+
+                </div>
+
+
+            </div>
+
+            <div class="column is-12">
+                <div class="level columns">
+                <span class="column is-12-mobile">Giá hiện tại: <strong> {{format_number
+                        this.product.Price}}</strong></span>
+            
+                </div>
+            </div>
+
+          
+
+            {{#if this.product.isVerify}}
+
+                <span class="column is-12 ">
+                    <img src="/public/logo/star.png"  height="32" width="32">
+                    <strong>Sản phẩm được đánh giá uy tín</strong>
+
+                    <hr class="has-background-grey"/>
+                </span>
+
+            {{else}}
+
+                <span class="column is-12 ">
+                    <img src="/img/logo/rating_off.png" height="32" width="32">
+                    <strong>Hãy đánh giá để sản phẩm đạt được uy tín</strong>
+
+                    <hr class="has-background-grey"/>
+                </span>
+
+            {{/if}}
+
+
+            <span class="column is-12  pt-0">Thời điểm đăng: <strong>{{this.product.DateUpload}}</strong></span>
+        
+
+            <hr class="has-background-grey"/></span>
+
+         
+
+        
+
+                <div class="column is-12 card-content box m-0">
+                    <div class="card-header-title">
+                        Thông tin sản phẩm
+                    </div>
+                    <div class="card-content ">
+                        {{{this.product.Description}}}
+                    </div>
+                </div>
+    {{#if auth}}               
+  <form action="/cart/add" method="post">
+
+            <input type="hidden" value="{{this.product.ProID}}" name="id">
+<div>
+            <div class="field has-text-left">
+                <div class="control">
+                 <p class="control is-expanded">
+                    <input class="input is-primary "  type="text" placeholder="Nhập số lượng" name="quantity" placeholder="Quantity" autofocus/>
+                     </p>
+                </div>
+            </div>
+             
+          </div>   
+          <div class="box has-text-centered">
+             <button type="submit" class="button is-link is-large">
+                  ADD TO CART
+                </button>
+</div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+        </span>
+      </form>
+{{/if}}
+
+           
+
+
+                    
+                     
+                
+                       
+
+ 
+
+          
+        </div>
+    </div>
+  
+
+    <div class="column is-12 p-2">
+        <hr class="has-background-grey"/>
+        <section class="section">
+            <div class="is-size-4-tablet is-size-5-mobile m-3 has-text-centered has-text-weight-bold">
+                Bạn có thể thích
+            </div>
+            <div id="slider" style="overflow: hidden">
+                <!-- Start Carousel -->
+                <div class="carousel">
+
+                    {{#each this.relatedProducts}}
+                        <div class="item-{{ProID}} mx-2">
+                            <!-- Slide Content -->
+                            <div class="card" >
+                                <div class="card-image">
+                                    <figure class="image is-16by9 is-covered">
+                                        <a href="/product/detail/{{ProID}}">
+                                            <img
+                                                    src="/public/product/{{ProID}}/1.png"
+                                                    alt="{{ProName}}"
+                                            />
+                                        </a>
+                                    </figure>
+                                </div>
+                                <div class="card-content">
+                                    <div class="has-text-centered has-text-weight-bold">{{ProName}}</div>
+                                    <!--                                <div class="item__description">-->
+                                    <!--                                    Ici une petite description pour tester le slider-->
+                                    <!--                                </div>-->
+                                </div>
+                            </div>
+                        </div>
+                    {{/each}}
+                    <!-- End Carousel -->
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+</div>
